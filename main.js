@@ -64,7 +64,42 @@ const mealList = [
 const roll = document.querySelector(".roll");
 const answer = document.querySelector(".answer");
 
+const brunch = document.querySelector("#brunch");
+const rice = document.querySelector("#rice");
+const noodle = document.querySelector("#noodle");
+const buffet = document.querySelector("#buffet");
+const others = document.querySelector("#others");
+
+let pickMealList = [];
+
+let category = [brunch, rice, noodle, buffet, others];
+
+console.log(rice);
+function pickMeal() {
+   category.forEach((i) => {
+      if (i.checked) {
+         mealList.forEach((j) => {
+            if (j.category.includes(i.name)) {
+               pickMealList.push(j);
+            }
+         });
+      }
+   });
+   pickMealList = pickMealList.filter(function (element, index, self) {
+      return self.indexOf(element) === index;
+   });
+}
+
 roll.addEventListener("click", function () {
-   const random = Math.floor(Math.random() * mealList.length);
-   answer.innerText = mealList[random].name;
+   pickMeal();
+   if (pickMealList.length > 0) {
+      console.log("TRUE");
+      random = Math.floor(Math.random() * pickMealList.length);
+      answer.innerText = pickMealList[random].name;
+   } else {
+      console.log("FALSE");
+      random = Math.floor(Math.random() * mealList.length);
+      answer.innerText = mealList[random].name;
+   }
+   pickMealList = [];
 });
